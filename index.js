@@ -1,5 +1,4 @@
 require('dotenv').config();
-//process.env.DB_SERVER
 const express = require('express');
 const app = express();
 
@@ -42,91 +41,26 @@ app.get('/api/tr_bank', (req, res) => {
     });
 });
 
-// app.post('/api/tr_bank/bank_insert', (req,res)=>{
-//     let sql = "INSERT INTO tsp60_nu_trdb.tr_bank (" + " ba_id, ba_balance_name, ba_name, ba_text, ba_status, ba_logo_bank, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update" + ")"
-//     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
-//     db.query(sql, (err, result) => {
-//         if (err) throw (err); 
-//         res.json(result); 
-//     });
-// });
-
-app.get('/api/tr_develop', (req, res) => {
-    let sql = 'SELECT * FROM tsp60_nu_trdb.tr_develop;';
-    db.query(sql, (err, result) => {
+app.get('/api/tr_bank/:id', (req, res) => {
+    let sql = `SELECT * FROM tsp60_nu_trdb.tr_bank WHERE ba_id = ${req.params.id}`;
+    db.query(sql, (err, result) => { 
         if (err) throw (err); 
         res.json(result); 
     });
 });
 
-app.get('/api/tr_expert_type', (req, res) => {
-    let sql = 'SELECT * FROM tsp60_nu_trdb.tr_expert_type;';
+app.post('/api/tr_bank/bank_insert', (req,res)=>{
+    let sql = `INSERT INTO tsp60_nu_trdb.tr_bank ( ba_id, ba_balance_name, ba_name, ba_text, ba_status, ba_logo_bank, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
+    VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
+    console.log(sql);
     db.query(sql, (err, result) => {
         if (err) throw (err); 
         res.json(result); 
     });
 });
-
-app.get('/api/tr_food_type', (req, res) => {
-    let sql = 'SELECT * FROM tsp60_nu_trdb.tr_food_type;';
-    db.query(sql, (err, result) => {
-        if (err) throw (err); 
-        res.json(result); 
-    });
-});
-
-app.get('/api/tr_major', (req, res) => {
-    let sql = 'SELECT * FROM tsp60_nu_trdb.tr_major;';
-    db.query(sql, (err, result) => {
-        if (err) throw (err); 
-        res.json(result); 
-    });
-});
-
-app.get('/api/tr_place', (req, res) => {
-    let sql = 'INSERT * FROM tsp60_nu_trdb.tr_place;';
-    db.query(sql, (err, result) => {
-        if (err) throw (err); 
-        res.json(result); 
-    });
-});
-// app.get('/home', (req, res) => {
-//     res.send('Hi Niphitphon 60160170');
-//     // let sql = 'SELECT * FROM customers;';
-//     // db.query(sql, (err, result) => {
-//     //     if (err) throw (err);
-//     //     res.json(result);
-//     // });
-// });
-
-// app.get('api/basedata/expert',(req,res)=>{
-//     let sql ='SELECT * FROM tr_expert;';
-//     db.query(sql,(err, result)=>{
-//         if (err) throw (err);
-//         res.json(result);
-//     })
-// });
-
-// app.get('/api/customer', (req, res) => {
-//     // res.send('Hello World' + req.params.id);
-//     let sql = 'SELECT * FROM customers;';
-//     db.query(sql, (err, result) => {
-//         if (err) throw (err); 
-//         res.json(result); 
-//     });
-// });
-
-// app.get('/api/:id', (req, res) => {
-//     // res.send('Hello world Post ' + req.body.id);
-//     let sql = `SELECT * FROM customers WHERE customerNumber = ${req.params.id}`;
-//     db.query(sql, function(err, result) {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
 
 // app.get('/api/search_by_name/:name', (req, res) => {
-//     // res.send('Hello world Post ' + req.body.id);
+    // res.send('Hello world Post ' + req.body.id);
 //     let name = req.params.name;
 //     let sql = `SELECT * FROM customers WHERE customerName LIKE '%${name}%'`;
 //     db.query(sql, function(err, result) {
