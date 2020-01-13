@@ -59,69 +59,45 @@ app.post('/api/tr_bank/bank_insert', (req,res)=>{
     });
 });
 
-// app.get('/api/search_by_name/:name', (req, res) => {
-    // res.send('Hello world Post ' + req.body.id);
-//     let name = req.params.name;
-//     let sql = `SELECT * FROM customers WHERE customerName LIKE '%${name}%'`;
-//     db.query(sql, function(err, result) {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
+app.get('/foodtype', (req, res) => {
+    let sql = 'SELECT * FROM tr_food_type;' 
+    let query = db.query(sql,(err,results) => { 
+         if(err) throw err  
+         res.json(results)   
+    })
+})
+  
+app.post('/foodtype', (req, res) => {
+    let sql = "INSERT INTO tr_food_type(" + 
+                   "ft_name_th," + 
+                   "ft_name_en," + 
+                   "ft_status," +
+                   "ft_user_update)" +
+              "VALUES('" +
+                   req.body.ft_name_th + "','" +
+                   req.body.ft_name_en + "','" +
+                   req.body.ft_status + "','" +
+                   req.body.ft_user_update + "'" +
+              ");"
+    let query = db.query(sql,(err,result) => {
+         if(err) throw err
+         res.json(result)
+    })
+})
 
-// app.post('/customers/', (req, res) => {
-//     let sql = "INSERT INTO customers(" +
-//         "customerName," +
-//         "contactLastName," +
-//         "contactFirstName," +
-//         "phone," +
-//         "addressLine1," + 
-//         "addressLine2," +
-//         "city," +
-//         "state," +
-//         "postalCode," +
-//         "country," +
-//         "salesRepEmployeeNumber," +
-//         "creditLimit)" +
-//         "VALUES('" +
-//         req.body.customerName + "','" +
-//         req.body.contactLastName + "','" +
-//         req.body.contactFirstName + "','" +
-//         req.body.phone + "','" +
-//         req.body.addressLine1 + "','" +
-//         req.body.addressLine2 + "','" +
-//         req.body.city + "','" +
-//         req.body.state + "','" +
-//         req.body.postalCode + "','" +
-//         req.body.country + "','" +
-//         req.body.salesRepEmployeeNumber + "','" +
-//         req.body.creditLimit + "'" +
-//         ");"
-//     let query = db.query(sql, (err, result) => {
-//         if (err) throw err
-//         res.json(result)
-//     })
-// });
+app.delete('/foodtype/:id', (req, res) => {
+   let sql = "DELETE FROM tr_food_type WHERE ft_id = "+ req.params.id + ";"
+   let query = db.query(sql,(err,result) => {
+       if(err) throw err
+       res.json(result)
+   })
+})
 
-// app.put('/api/customers/update', (req, res) => {
-//     let sql = `UPDATE customers SET customerName = ?, contactLastName = ?, contactFirstName = ?, phone = ?, addressLine1 = ?, addressLine2 = ?, city = ?, state = ? , postalCode = ? , country = ? , salesRepEmployeeNumber = ? , creditLimit = ? WHERE customerNumber = ?`;
-//     let data = Array(
-//         req.body.customerName, req.body.contactLastName, req.body.contactFirstName,
-//         req.body.phone, req.body.addressLine1, req.body.addressLine2,
-//         req.body.city, req.body.state, req.body.postalCode,
-//         req.body.country, req.body.saleRepEmployeeNumber, req.body.creditLimit,
-//         req.body.customerNumber
-//     )
-//     db.query(sql, [...data], (err, result) => {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
-
-// app.delete('/api/delete/:id', (req, res) => {
-//     let sql = `DELETE FROM customers WHERE customerNumber = ${req.params.id}`;
-//     db.query(sql, (err, result) => {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
+app.put('/customers/:id', (req, res) => {
+    // console.log(req.params)
+ //     let sql = "UPDATE customers SET customerName = '"+ req.body.customerName +"' WHERE customerNumber = "+ req.params.id + ";"
+ //     let query = db.query(sql,(err,result) => {
+ //         if(err) throw err
+ //         res.json(result)
+ //     })
+ })
