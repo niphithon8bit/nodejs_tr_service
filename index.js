@@ -235,10 +235,10 @@ app.put('/expert_out/status/:id', (req, res) => {
     let sql = "UPDATE tr_expert" +
         " SET ep_active = '" + req.body.ep_active + "'" +
         " WHERE ep_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
 })
 
 app.put('/expert_out/update/:id', (req, res) => {
@@ -274,28 +274,15 @@ app.post('/expert_out/expert_out_insert', (req, res) => {
         if (err) throw (err);
         res.json(result);
     });
-<<<<<<< HEAD
 });
 
 // expert_type part
 app.get('/expert_type', (req, res) => {
     let sql = 'SELECT *,(CASE WHEN ept_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_expert_type;'
-=======
-
-});
-
-
-//expert_in update status
-
-// major part
-app.get('/tr_major', (req, res) => {
-    let sql = 'SELECT *,(CASE WHEN mj_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_major;'
->>>>>>> 2c4d9b02dbca80cb244e18fa13f52ea1ae3e6d5b
     let query = db.query(sql, (err, results) => {
         if (err) throw err
         res.json(results)
     })
-<<<<<<< HEAD
 })
 
 app.post('/expert_type', (req, res) => {
@@ -335,50 +322,12 @@ app.put('/expert_type/:id', (req, res) => {
 })
 
 app.put('/expert_type/update/:id', (req, res) => {
-        let sql = "UPDATE tr_expert_type" +
-            " SET ept_name_th = '" + req.body.ept_name_th + "',ept_name_en = '" + req.body.ept_name_en + "'" +
-            " WHERE ept_id = " + req.params.id + ";"
-=======
-
-    app.post('/tr_major', (req, res) => {
-        let sql = `INSERT INTO tr_major(mj_id, mj_name_th, mj_name_en, mj_initials_th, mj_initials_en, mj_dev_id, mj_status, mj_user_update, mj_update)
-    VALUES (NULL,'${req.body.mj_name_th}','${req.body.mj_name_en}','','',0,'${req.body.mj_status}',0,CURRENT_TIMESTAMP)`;
-        db.query(sql, (err, result) => {
-            if (err) throw (err);
-            res.json(result);
-        })
+    let sql = "UPDATE tr_expert_type" +
+        " SET ept_name_th = '" + req.body.ept_name_th + "',ept_name_en = '" + req.body.ept_name_en + "'" +
+        " WHERE ept_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
     })
-
-    app.delete('/tr_major/:id', (req, res) => {
-        let sql = "DELETE FROM tr_major WHERE mj_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
-    })
-
-    app.put('/tr_major/:id', (req, res) => {
-        let sql = "UPDATE tr_major" +
-            " SET mj_status = '" + req.body.mj_status + "'" +
-            " WHERE mj_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
-    })
-
-    app.put('/tr_major/update/:id', (req, res) => {
-        let sql = "UPDATE tr_major" +
-            " SET mj_name_th = '" + req.body.mj_name_th + "',mj_name_en = '" + req.body.mj_name_en + "'" +
-            " WHERE mj_id = " + req.params.id + ";"
->>>>>>> 2c4d9b02dbca80cb244e18fa13f52ea1ae3e6d5b
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
-    })
-<<<<<<< HEAD
-// end expert_type part
-=======
 })
->>>>>>> 2c4d9b02dbca80cb244e18fa13f52ea1ae3e6d5b
+// end expert_type part
