@@ -1,38 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -166,83 +131,105 @@ app.put('/foodtype/update/:id', (req, res) => {
         if (err) throw err
         res.json(result)
     })
+})
 
-    // place part
-    app.get('/place', (req, res) => {
-        let sql = 'SELECT *,(CASE WHEN place_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_place;'
-        let query = db.query(sql, (err, results) => {
-            if (err) throw err
-            res.json(results)
-        })
+// place part
+app.get('/place', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN place_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_place;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
     })
+})
 
-    app.post('/place', (req, res) => {
-        let sql = "INSERT INTO tr_place(" +
-            "place_name_th," +
-            "place_name_en," +
-            "place_initials_th," +
-            "place_initials_en," +
-            "place_status," +
-            "place_user_update)" +
-            "VALUES('" +
-            req.body.place_name_th + "','" +
-            req.body.place_name_en + "','" +
-            '" "' + "','" +
-            '" "' + "','" +
-            req.body.place_status + "','" +
-            req.body.place_user_update + "'" +
-            ");"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
+app.post('/place', (req, res) => {
+    let sql = "INSERT INTO tr_place(" +
+        "place_name_th," +
+        "place_name_en," +
+        "place_initials_th," +
+        "place_initials_en," +
+        "place_status," +
+        "place_user_update)" +
+        "VALUES('" +
+        req.body.place_name_th + "','" +
+        req.body.place_name_en + "','" +
+        '" "' + "','" +
+        '" "' + "','" +
+        req.body.place_status + "','" +
+        req.body.place_user_update + "'" +
+        ");"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
     })
+})
 
-    app.delete('/place/:id', (req, res) => {
-        let sql = "DELETE FROM tr_place WHERE place_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
+app.delete('/place/:id', (req, res) => {
+    let sql = "DELETE FROM tr_place WHERE place_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
     })
+})
 
-    app.put('/place/:id', (req, res) => {
-        let sql = "UPDATE tr_place" +
-            " SET place_status = '" + req.body.place_status + "'" +
-            " WHERE place_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
+app.put('/place/:id', (req, res) => {
+    let sql = "UPDATE tr_place" +
+        " SET place_status = '" + req.body.place_status + "'" +
+        " WHERE place_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
     })
+})
 
-    app.put('/place/update/:id', (req, res) => {
-        let sql = "UPDATE tr_place" +
-            " SET place_name_th = '" + req.body.place_name_th + "',place_name_en = '" + req.body.place_name_en + "'" +
-            " WHERE place_id = " + req.params.id + ";"
-        let query = db.query(sql, (err, result) => {
-            if (err) throw err
-            res.json(result)
-        })
+app.put('/place/update/:id', (req, res) => {
+    let sql = "UPDATE tr_place" +
+        " SET place_name_th = '" + req.body.place_name_th + "',place_name_en = '" + req.body.place_name_en + "'" +
+        " WHERE place_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
     })
-    // expert in part
-    app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
-        let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
+})
+// expert in part
+app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
+    let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
     VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
-        console.log(sql);
-        db.query(sql, (err, result) => {
-            if (err) throw (err);
-            res.json(result);
-        });
+    console.log(sql);
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
     });
+});
 
-    // major part
-    app.get('/tr_major', (req, res) => {
-        let sql = 'SELECT *,(CASE WHEN mj_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_major;'
-        let query = db.query(sql, (err, results) => {
-            if (err) throw err
-            res.json(results)
-        })
+//update data expert_in 
+app.put('/expert_in/update/:id', (req, res) => {
+    let sql = "UPDATE tr_expert" +
+        " SET ep_fname = '" + req.body.ep_fname + "',ep_lname = '" + req.body.ep_lname + "'" +
+        " WHERE ep_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+//expert_in update status
+app.put('/api/tr_expert_in/updateStatus/:id', (req, res) => {
+    let sql = `UPDATE tr_expert
+             SET ep_active = '${req.body.ep_active}' 
+             WHERE ep_id =  ${req.params.id} `;
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+})
+
+// major part
+app.get('/tr_major', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN mj_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_major;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
     })
 
     app.post('/tr_major', (req, res) => {
