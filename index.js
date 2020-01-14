@@ -33,6 +33,8 @@ app.listen(3000, () => {
     console.log('Start server at port 3000.');
 });
 
+// bank part
+
 app.get('/api/tr_bank', (req, res) => {
     let sql = 'SELECT * FROM tsp60_nu_trdb.tr_bank;';
     db.query(sql, (err, result) => {
@@ -52,14 +54,67 @@ app.get('/api/tr_bank/:id', (req, res) => {
 app.post('/api/tr_bank/bank_insert', (req, res) => {
     let sql = `INSERT INTO tsp60_nu_trdb.tr_bank ( ba_id, ba_balance_name, ba_name, ba_text, ba_status, ba_logo_bank, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
     VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
-    console.log(sql);
     db.query(sql, (err, result) => {
         if (err) throw (err);
         res.json(result);
     });
 });
 
+// food type part
 
+app.get('/foodtype', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN ft_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_food_type;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
+    })
+})
+
+app.post('/foodtype', (req, res) => {
+    let sql = "INSERT INTO tr_food_type(" +
+        "ft_name_th," +
+        "ft_name_en," +
+        "ft_status," +
+        "ft_user_update)" +
+        "VALUES('" +
+        req.body.ft_name_th + "','" +
+        req.body.ft_name_en + "','" +
+        req.body.ft_status + "','" +
+        req.body.ft_user_update + "'" +
+        ");"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.delete('/foodtype/:id', (req, res) => {
+    let sql = "DELETE FROM tr_food_type WHERE ft_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+});
+app.put('/foodtype/:id', (req, res) => {
+    let sql = "UPDATE tr_food_type" +
+        " SET ft_status = '" + req.body.ft_status + "'" +
+        " WHERE ft_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/foodtype/update/:id', (req, res) => {
+        let sql = "UPDATE tr_food_type" +
+            " SET ft_name_th = '" + req.body.ft_name_th + "',ft_name_en = '" + req.body.ft_name_en + "'" +
+            " WHERE ft_id = " + req.params.id + ";"
+        let query = db.query(sql, (err, result) => {
+            if (err) throw err
+            res.json(result)
+        })
+    })
+    // expert in part
 app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
     let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
     VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
@@ -69,70 +124,3 @@ app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
         res.json(result);
     });
 });
-
-// app.get('/api/search_by_name/:name', (req, res) => {
-// res.send('Hello world Post ' + req.body.id);
-//     let name = req.params.name;
-//     let sql = `SELECT * FROM customers WHERE customerName LIKE '%${name}%'`;
-//     db.query(sql, function(err, result) {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
-
-// app.post('/customers/', (req, res) => {
-//     let sql = "INSERT INTO customers(" +
-//         "customerName," +
-//         "contactLastName," +
-//         "contactFirstName," +
-//         "phone," +
-//         "addressLine1," + 
-//         "addressLine2," +
-//         "city," +
-//         "state," +
-//         "postalCode," +
-//         "country," +
-//         "salesRepEmployeeNumber," +
-//         "creditLimit)" +
-//         "VALUES('" +
-//         req.body.customerName + "','" +
-//         req.body.contactLastName + "','" +
-//         req.body.contactFirstName + "','" +
-//         req.body.phone + "','" +
-//         req.body.addressLine1 + "','" +
-//         req.body.addressLine2 + "','" +
-//         req.body.city + "','" +
-//         req.body.state + "','" +
-//         req.body.postalCode + "','" +
-//         req.body.country + "','" +
-//         req.body.salesRepEmployeeNumber + "','" +
-//         req.body.creditLimit + "'" +
-//         ");"
-//     let query = db.query(sql, (err, result) => {
-//         if (err) throw err
-//         res.json(result)
-//     })
-// });
-
-// app.put('/api/customers/update', (req, res) => {
-//     let sql = `UPDATE customers SET customerName = ?, contactLastName = ?, contactFirstName = ?, phone = ?, addressLine1 = ?, addressLine2 = ?, city = ?, state = ? , postalCode = ? , country = ? , salesRepEmployeeNumber = ? , creditLimit = ? WHERE customerNumber = ?`;
-//     let data = Array(
-//         req.body.customerName, req.body.contactLastName, req.body.contactFirstName,
-//         req.body.phone, req.body.addressLine1, req.body.addressLine2,
-//         req.body.city, req.body.state, req.body.postalCode,
-//         req.body.country, req.body.saleRepEmployeeNumber, req.body.creditLimit,
-//         req.body.customerNumber
-//     )
-//     db.query(sql, [...data], (err, result) => {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
-
-// app.delete('/api/delete/:id', (req, res) => {
-//     let sql = `DELETE FROM customers WHERE customerNumber = ${req.params.id}`;
-//     db.query(sql, (err, result) => {
-//         if (err) throw (err);
-//         res.json(result);
-//     });
-// });
