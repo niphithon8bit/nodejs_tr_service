@@ -36,31 +36,42 @@ app.listen(3000, () => {
 app.get('/api/tr_bank', (req, res) => {
     let sql = 'SELECT * FROM tsp60_nu_trdb.tr_bank;';
     db.query(sql, (err, result) => {
-        if (err) throw (err); 
-        res.json(result); 
+        if (err) throw (err);
+        res.json(result);
     });
 });
 
 app.get('/api/tr_bank/:id', (req, res) => {
     let sql = `SELECT * FROM tsp60_nu_trdb.tr_bank WHERE ba_id = ${req.params.id}`;
-    db.query(sql, (err, result) => { 
-        if (err) throw (err); 
-        res.json(result); 
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
     });
 });
 
-app.post('/api/tr_bank/bank_insert', (req,res)=>{
+app.post('/api/tr_bank/bank_insert', (req, res) => {
     let sql = `INSERT INTO tsp60_nu_trdb.tr_bank ( ba_id, ba_balance_name, ba_name, ba_text, ba_status, ba_logo_bank, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
     VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
     console.log(sql);
     db.query(sql, (err, result) => {
-        if (err) throw (err); 
-        res.json(result); 
+        if (err) throw (err);
+        res.json(result);
+    });
+});
+
+
+app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
+    let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
+    VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
+    console.log(sql);
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
     });
 });
 
 // app.get('/api/search_by_name/:name', (req, res) => {
-    // res.send('Hello world Post ' + req.body.id);
+// res.send('Hello world Post ' + req.body.id);
 //     let name = req.params.name;
 //     let sql = `SELECT * FROM customers WHERE customerName LIKE '%${name}%'`;
 //     db.query(sql, function(err, result) {
