@@ -114,13 +114,42 @@ app.put('/foodtype/update/:id', (req, res) => {
             res.json(result)
         })
     })
-    // expert in part
+    //update data expert_in 
+app.put('/expert_in/update/:id', (req, res) => {
+        let sql = "UPDATE tr_expert" +
+            " SET ep_fname = '" + req.body.ep_fname + "',ep_lname = '" + req.body.ep_lname + "'" +
+            " WHERE ep_id = " + req.params.id + ";"
+        let query = db.query(sql, (err, result) => {
+            if (err) throw err
+            res.json(result)
+        })
+    })
+    //update status expert in
+app.put('/api/tr_expert_in/updateStatus/:id', (req, res) => {
+        let sql = `UPDATE tr_expert
+             SET ep_active = '${req.body.ep_active}' 
+             WHERE ep_id =  ${req.params.id} `;
+        db.query(sql, (err, result) => {
+            if (err) throw (err);
+            res.json(result);
+        })
+    })
+    //expert_in update status
+
+// expert in part
 app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
-    let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
-    VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
+    let sql = `INSERT INTO tr_expert (
+        ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id,
+         ep_alp_other, ep_address, ep_dist_id, ep_amph_id, ep_pv_id,
+          ep_zipcode, ep_email, ep_work_phone, ep_home_phone, ep_mobile_phone,
+           ep_fax, ep_work_history, ep_active, ep_user_update, ep_show, ep_update)
+    VALUES(NULL, 1, 1, '${req.body.ep_fname}', 
+    '${req.body.ep_lname}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    '${req.body.ep_active}', 0,0 , CURRENT_TIMESTAMP)`;
     console.log(sql);
     db.query(sql, (err, result) => {
         if (err) throw (err);
         res.json(result);
     });
+
 });
