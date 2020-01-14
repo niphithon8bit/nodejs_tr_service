@@ -193,11 +193,17 @@ app.put('/place/update/:id', (req, res) => {
 })
 // expert in part
 app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
-    let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
-    VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
+    let sql = `INSERT INTO tr_expert (
+        ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id,
+         ep_alp_other, ep_address, ep_dist_id, ep_amph_id, ep_pv_id,
+          ep_zipcode, ep_email, ep_work_phone, ep_home_phone, ep_mobile_phone,
+           ep_fax, ep_work_history, ep_active, ep_user_update, ep_show, ep_update)
+    VALUES(NULL, 0, 1, '${req.body.ep_fname}', 
+    '${req.body.ep_lname}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    '${req.body.ep_active}', 0,0 , CURRENT_TIMESTAMP)`;
     console.log(sql);
     db.query(sql, (err, result) => {
-        if (err) throw (err);
+        if (err) throw (err);   
         res.json(result);
     });
 });
@@ -275,6 +281,92 @@ app.post('/expert_out/expert_out_insert', (req, res) => {
         res.json(result);
     });
 });
+
+// major part
+app.get('/tr_major', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN mj_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_major;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
+    })
+})
+
+app.post('/tr_major', (req, res) => {
+    let sql = `INSERT INTO tr_major(mj_id, mj_name_th, mj_name_en, mj_initials_th, mj_initials_en, mj_dev_id, mj_status, mj_user_update, mj_update)
+VALUES (NULL,'${req.body.mj_name_th}','${req.body.mj_name_en}','','',0,'${req.body.mj_status}',0,CURRENT_TIMESTAMP)`;
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+})
+
+app.delete('/tr_major/:id', (req, res) => {
+    let sql = "DELETE FROM tr_major WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/tr_major/:id', (req, res) => {
+    let sql = "UPDATE tr_major" +
+        " SET mj_status = '" + req.body.mj_status + "'" +
+        " WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/tr_major/update/:id', (req, res) => {
+    let sql = "UPDATE tr_major" +
+        " SET mj_name_th = '" + req.body.mj_name_th + "',mj_name_en = '" + req.body.mj_name_en + "'" +
+        " WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+app.post('/tr_major', (req, res) => {
+    let sql = `INSERT INTO tr_major(mj_id, mj_name_th, mj_name_en, mj_initials_th, mj_initials_en, mj_dev_id, mj_status, mj_user_update, mj_update)
+    VALUES(NULL, '${req.body.mj_name_th}', '${req.body.mj_name_en}', '', '', 0, '${req.body.mj_status}', 0, CURRENT_TIMESTAMP)`;
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+})
+
+app.delete('/tr_major/:id', (req, res) => {
+    let sql = "DELETE FROM tr_major WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/tr_major/:id', (req, res) => {
+    let sql = "UPDATE tr_major" +
+        " SET mj_status = '" + req.body.mj_status + "'" +
+        " WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/tr_major/update/:id', (req, res) => {
+    let sql = "UPDATE tr_major" +
+        " SET mj_name_th = '" + req.body.mj_name_th + "',mj_name_en = '" + req.body.mj_name_en + "'" +
+        " WHERE mj_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
 
 // expert_type part
 app.get('/expert_type', (req, res) => {
