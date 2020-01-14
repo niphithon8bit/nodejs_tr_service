@@ -423,3 +423,59 @@ app.put('/expert_type/update/:id', (req, res) => {
     })
 })
 // end expert_type part
+
+//develop
+app.get('/dev', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN dev_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_develop;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
+    })
+})
+
+app.post('/dev', (req, res) => {
+    let sql = "INSERT INTO tr_develop(" +
+        "dev_name_th," +
+        "dev_name_en," +
+        "dev_status," +
+        "dev_user_update)" +
+        "VALUES('" +
+        req.body.dev_name_th + "','" +
+        req.body.dev_name_en + "','" +
+        req.body.dev_status + "','" +
+        req.body.dev_user_update + "'" +
+        ");"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.delete('/dev/:id', (req, res) => {
+    let sql = "DELETE FROM tr_develop WHERE dev_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+});
+
+app.put('/dev/:id', (req, res) => {
+    let sql = "UPDATE tr_develop" +
+        " SET dev_status = '" + req.body.dev_status + "'" +
+        " WHERE dev_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/dev/update/:id', (req, res) => {
+    let sql = "UPDATE tr_develop" +
+        " SET dev_name_th = '" + req.body.dev_name_th + "',dev_name_en = '" + req.body.dev_name_en + "'" +
+        " WHERE dev_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+//end dev
