@@ -124,3 +124,59 @@ app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
         res.json(result);
     });
 });
+
+// expert_type part
+app.get('/expert_type', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN ept_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_expert_type;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
+    })
+})
+
+app.post('/expert_type', (req, res) => {
+    let sql = "INSERT INTO tr_expert_type(" +
+        "ept_name_th," +
+        "ept_name_en," +
+        "ept_status," +
+        "ept_user_update)" +
+        "VALUES('" +
+        req.body.ept_name_th + "','" +
+        req.body.ept_name_en + "','" +
+        req.body.ept_status + "','" +
+        req.body.ept_user_update + "'" +
+        ");"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.delete('/expert_type/:id', (req, res) => {
+    let sql = "DELETE FROM tr_expert_type WHERE ept_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+});
+
+app.put('/expert_type/:id', (req, res) => {
+    let sql = "UPDATE tr_expert_type" +
+        " SET ept_status = '" + req.body.ept_status + "'" +
+        " WHERE ept_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/expert_type/update/:id', (req, res) => {
+        let sql = "UPDATE tr_expert_type" +
+            " SET ept_name_th = '" + req.body.ept_name_th + "',ept_name_en = '" + req.body.ept_name_en + "'" +
+            " WHERE ept_id = " + req.params.id + ";"
+        let query = db.query(sql, (err, result) => {
+            if (err) throw err
+            res.json(result)
+        })
+    })
+// end expert_type part
