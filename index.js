@@ -112,3 +112,61 @@ app.put('/foodtype/update/:id', (req, res) => {
         res.json(result)
     })
 })
+
+app.get('/place', (req, res) => {
+    let sql = 'SELECT *,(CASE WHEN place_status = "Y" THEN "true" ELSE "false" END) AS check_status FROM tr_place;' 
+    let query = db.query(sql,(err,results) => { 
+         if(err) throw err  
+         res.json(results)   
+    })
+})
+
+app.post('/place', (req, res) => {
+    let sql =   "INSERT INTO tr_place(" + 
+                   "place_name_th," + 
+                   "place_name_en," +
+                   "place_initials_th," +
+                   "place_initials_en," +
+                   "place_status," +
+                   "place_user_update)" +
+                "VALUES('" +
+                   req.body.place_name_th + "','" +
+                   req.body.place_name_en + "','" +
+                   '" "' + "','" +
+                   '" "' + "','" +
+                   req.body.place_status + "','" +
+                   req.body.place_user_update + "'" +
+                ");"
+    let query = db.query(sql,(err,result) => {
+         if(err) throw err
+         res.json(result)
+    })
+})
+
+app.delete('/place/:id', (req, res) => {
+    let sql = "DELETE FROM tr_place WHERE place_id = "+ req.params.id + ";"
+    let query = db.query(sql,(err,result) => {
+        if(err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/place/:id', (req, res) => {
+    let sql =   "UPDATE tr_place" +
+                " SET place_status = '"+ req.body.place_status + "'" +  
+                " WHERE place_id = "+ req.params.id + ";"
+    let query = db.query(sql,(err,result) => {
+        if(err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/place/update/:id', (req, res) => {
+    let sql =   "UPDATE tr_place" +
+                " SET place_name_th = '"+ req.body.place_name_th + "',place_name_en = '"+ req.body.place_name_en + "'" +
+                " WHERE place_id = "+ req.params.id + ";"
+    let query = db.query(sql,(err,result) => {
+        if(err) throw err
+        res.json(result)
+    })
+})
