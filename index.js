@@ -124,3 +124,93 @@ app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
         res.json(result);
     });
 });
+
+app.get('/expert_out', (req, res) => {
+    let sql = 'SELECT * FROM tr_expert WHERE ep_ps_id=0;'
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err
+        res.json(results)
+    })
+})
+
+app.put('/expert_out/status/:id', (req, res) => {
+    let sql = "UPDATE tr_expert" +
+        " SET ep_active = '" + req.body.ep_active + "'" +
+        " WHERE ep_id = " + req.params.id + ";"
+        let query = db.query(sql, (err, result) => {
+            if (err) throw err
+            res.json(result)
+        })
+})
+
+app.put('/expert_out/update/:id', (req, res) => {
+    let sql = "UPDATE tr_expert" +
+        " SET ep_fname = '" + req.body.ep_fname + "',ep_lname = '" + req.body.ep_lname + "'" +
+        " WHERE ep_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.delete('/expert_out/delete/:id', (req, res) => {
+    let sql = "DELETE FROM tr_expert WHERE ep_id = " + req.params.id + ";"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+});
+
+app.post('/expert_out/expert_out_insert', (req, res) => {
+    let sql = `INSERT INTO tr_expert (
+        ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id,
+         ep_alp_other, ep_address, ep_dist_id, ep_amph_id, ep_pv_id,
+          ep_zipcode, ep_email, ep_work_phone, ep_home_phone, ep_mobile_phone,
+           ep_fax, ep_work_history, ep_active, ep_user_update, ep_show, ep_update)
+    VALUES(NULL, 0, 1, '${req.body.ep_fname}', 
+    '${req.body.ep_lname}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    '${req.body.ep_active}', 0,0 , CURRENT_TIMESTAMP)`;
+    console.log(sql);
+    db.query(sql, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    });
+
+});
+
+app.post('/expert_out/insert/', (req, res) => {
+    let sql = "INSERT INTO tr_expert(" +
+        "ep_fname," +
+        "ep_lname," +
+        "ep_ps_id," +
+        "ep_status," +
+        "ep_pf_id," +
+        "ep_alp_id," +
+        "ep_address," +
+        "ep_alp_other," +
+        "ep_dist_id," +
+        "ep_amph_id," +
+        "ep_pv_id," +
+        "ep_zipcode," + 
+        "ep_email," +
+        "ep_workphone," +
+        "ep_home_phone," +
+        "ep_mobile_phone," +
+        "ep_fax," +
+        "ep_work_history," +
+        "ep_active," +
+        "ep_show," +
+        "ep_update" +
+        "ep_user_update)" +
+        "VALUES('" +
+        req.body.ep_fname + "','" +
+        req.body.ep_lname + "','" +
+        reg.body.ep_ps_id + "','" +
+        req.body.ep_status + "','" +
+        req.body.ep_user_update + "'" +
+        "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);"
+    let query = db.query(sql, (err, result) => {
+        if (err) throw err
+        res.json(result)
+    })
+})
