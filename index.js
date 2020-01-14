@@ -190,7 +190,8 @@ app.put('/place/update/:id', (req, res) => {
         res.json(result)
     })
 })
-    // expert in partapp.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
+    // expert in part
+app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
     let sql = `INSERT INTO tsp60_nu_trdb.tr_expert ( ep_id, ep_ps_id, ep_pf_id, ep_fname, ep_lname, ep_alp_id, ba_logo_uni, ba_fee, ba_user_update,ba_bb_id, ba_update)
     VALUES (NULL,'${req.body.balance_name}',' ','${req.body.text}','${req.body.status}','NULL','NULL','0','0','${req.body.name}',CURRENT_TIMESTAMP)`;
     console.log(sql);
