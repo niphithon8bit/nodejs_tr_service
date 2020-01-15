@@ -198,7 +198,7 @@ app.post('/api/tr_expert_in/expert_in_insert', (req, res) => {
          ep_alp_other, ep_address, ep_dist_id, ep_amph_id, ep_pv_id,
           ep_zipcode, ep_email, ep_work_phone, ep_home_phone, ep_mobile_phone,
            ep_fax, ep_work_history, ep_active, ep_user_update, ep_show, ep_update)
-    VALUES(NULL, 0, 1, '${req.body.ep_fname}', 
+    VALUES(NULL, 10, 1, '${req.body.ep_fname}', 
     '${req.body.ep_lname}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     '${req.body.ep_active}', 0,0 , CURRENT_TIMESTAMP)`;
     console.log(sql);
